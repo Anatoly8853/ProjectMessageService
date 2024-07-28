@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JetClientState">
+    <option name="draftsState">
+      <draftsState>
+        <option name="requests">
+          <list>
+            <requestState>
+              <option name="body">
+                <bodyState>
+                  <option name="raw" value="{&#10;  &quot;topic&quot;: &quot;ping&quot;,&#10;  &quot;message&quot;: &quot;Hello, world!&quot;&#10;}" />
+                  <option name="type" value="JSON" />
+                </bodyState>
+              </option>
+              <option name="headers">
+                <list>
+                  <headerState>
+                    <option name="key" value="Content-Type" />
+                    <option name="value" value="application/json" />
+                  </headerState>
+                </list>
+              </option>
+              <option name="id" value="76f15643-444b-4fec-a14a-46e00ccbe184" />
+              <option name="method" value="GET" />
+              <option name="name" value="Draft" />
+              <option name="sortWeight" value="1000000" />
+              <option name="url" value="http://localhost:8080/stats" />
+            </requestState>
+            <requestState>
+              <option name="body">
+                <bodyState>
+                  <option name="raw" value="{&#10;  &quot;topic&quot;: &quot;ping&quot;,&#10;  &quot;message&quot;: &quot;Hello, world 65vgfr!&quot;&#10;}" />
+                  <option name="type" value="JSON" />
+                </bodyState>
+              </option>
+              <option name="headers">
+                <list>
+                  <headerState>
+                    <option name="key" value="Content-Type" />
+                    <option name="value" value="application/json" />
+                  </headerState>
+                </list>
+              </option>
+              <option name="id" value="520323fa-c434-4d0a-be5d-b4df8c4cb1e9" />
+              <option name="method" value="POST" />
+              <option name="name" value="Draft (1)" />
+              <option name="sortWeight" value="2000000" />
+              <option name="url" value="http://localhost:8080/messages" />
+            </requestState>
+          </list>
+        </option>
+      </draftsState>
+    </option>
+    <option name="id" value="446600d6-eb7c-42c7-be5f-4ef8b3d95397" />
+    <option name="version" value="3" />
+  </component>
+</project>
