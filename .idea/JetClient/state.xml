@@ -27,9 +27,19 @@
               <option name="url" value="http://localhost:8080/stats" />
             </requestState>
             <requestState>
+              <option name="auth">
+                <authState>
+                  <option name="bearer">
+                    <lC>
+                      <option name="token" value="v2.local.055mnWEZrzYVtInoUN2LCMusmvb4sg5pjoZxlluzXYCcmc7YufI49vDIyE-HWyV6jGiPFM6zvnWzvrg0SeFVyOCsTFovpg2hSpIoa-wgrPCqsFsxZ4SQFzO86mvtstl50vPOULXToosHRyw-cze699Sshv0bJEHja_BhithJrZIk5zkh-bYlKJC5MeUuS1kiMxGemhLJTTE2LjZZ9rm1Fv0NdMA9ti0OL1w8kXwvpB5wPkavvksFTDAps1aHXtFiDKs6sBWW8rz0nfvrsygaV439JVek4mCkzymi20k3GQ.bnVsbA" />
+                    </lC>
+                  </option>
+                  <option name="type" value="BEARER" />
+                </authState>
+              </option>
               <option name="body">
                 <bodyState>
-                  <option name="raw" value="{&#10;  &quot;topic&quot;: &quot;ping&quot;,&#10;  &quot;message&quot;: &quot;Hello, world 65vgfr!&quot;&#10;}" />
+                  <option name="raw" value="{&#10;  &quot;topic&quot;: &quot;ping&quot;,&#10;  &quot;message&quot;: &quot;Hello, world 65frty0nhj98gfr!&quot;&#10;}" />
                   <option name="type" value="JSON" />
                 </bodyState>
               </option>
@@ -46,6 +56,51 @@
               <option name="name" value="Draft (1)" />
               <option name="sortWeight" value="2000000" />
               <option name="url" value="http://localhost:8080/messages" />
+            </requestState>
+            <requestState>
+              <option name="body">
+                <bodyState>
+                  <option name="raw" value="{&#10;  &quot;username&quot;: &quot;Вася&quot;,&#10;  &quot;password&quot;: &quot;1234567&quot;,&#10;  &quot;full_name&quot;: &quot;Пупкин&quot;,&#10;  &quot;email&quot;: &quot;avp@mail.ru&quot;&#10;}" />
+                  <option name="type" value="JSON" />
+                </bodyState>
+              </option>
+              <option name="headers">
+                <list>
+                  <headerState>
+                    <option name="key" value="Content-Type" />
+                    <option name="value" value="application/json" />
+                  </headerState>
+                </list>
+              </option>
+              <option name="id" value="94486612-6572-4c74-9e0c-2289776d0af8" />
+              <option name="method" value="POST" />
+              <option name="name" value="Draft (2)" />
+              <option name="url" value="http://localhost:8080/users" />
+            </requestState>
+            <requestState>
+              <option name="auth">
+                <authState>
+                  <option name="type" value="BEARER" />
+                </authState>
+              </option>
+              <option name="body">
+                <bodyState>
+                  <option name="raw" value="{&#10;  &quot;username&quot;: &quot;Вася&quot;,&#10;  &quot;password&quot;: &quot;1234567&quot;&#10;}" />
+                  <option name="type" value="JSON" />
+                </bodyState>
+              </option>
+              <option name="headers">
+                <list>
+                  <headerState>
+                    <option name="key" value="Content-Type" />
+                    <option name="value" value="application/json" />
+                  </headerState>
+                </list>
+              </option>
+              <option name="id" value="5d376ab8-60b0-475d-9c1d-efdb4031c458" />
+              <option name="method" value="POST" />
+              <option name="name" value="Draft (3)" />
+              <option name="url" value="http://localhost:8080/users/login" />
             </requestState>
           </list>
         </option>

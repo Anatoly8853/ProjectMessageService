@@ -3,6 +3,7 @@ package config
 import (
 	"ProjectMessageService/internal/loggers"
 	"os"
+	`time`
 
 	"github.com/gookit/slog"
 	"github.com/spf13/viper"
@@ -11,6 +12,8 @@ import (
 type Application struct {
 	Log *slog.Logger
 }
+
+var MessageTypes = []string{"message", "ping"} // Список типов сообщений
 
 func SetupApplication() *Application {
 	// Настройка логгера перед его инициализацией
@@ -25,12 +28,18 @@ func SetupApplication() *Application {
 }
 
 type Config struct {
-	DBHost     string `mapstructure:"DB_HOST"`
-	DBPort     string `mapstructure:"DB_PORT"`
-	DBUser     string `mapstructure:"DB_USER"`
-	DBPassword string `mapstructure:"DB_PASSWORD"`
-	DBName     string `mapstructure:"DB_NAME"`
-	KafkaURL   string `mapstructure:"KAFKA_URL"`
+	DBHost               string        `mapstructure:"DB_HOST"`
+	DBPort               string        `mapstructure:"DB_PORT"`
+	DBUser               string        `mapstructure:"DB_USER"`
+	DBPassword           string        `mapstructure:"DB_PASSWORD"`
+	DBName               string        `mapstructure:"DB_NAME"`
+	KafkaURL             string        `mapstructure:"KAFKA_URL"`
+	TokenSymmetricKey    string        `mapstructure:"TOKEN_SYMMETRIC_KEY"`
+	AccessTokenDuration  time.Duration `mapstructure:"ACCESS_TOKEN_DURATION"`
+	RefreshTokenDuration time.Duration `mapstructure:"REFRESH_TOKEN_DURATION"`
+	EmailSenderName      string        `mapstructure:"EMAIL_SENDER_NAME"`
+	EmailSenderAddress   string        `mapstructure:"EMAIL_SENDER_ADDRESS"`
+	EmailSenderPassword  string        `mapstructure:"EMAIL_SENDER_PASSWORD"`
 }
 
 func LoadConfig(app *Application) (cfg Config) {
