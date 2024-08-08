@@ -2,6 +2,7 @@ package repository
 
 import (
 	`ProjectMessageService/config`
+	`ProjectMessageService/internal/api`
 	`ProjectMessageService/internal/utils`
 	`context`
 	`fmt`
@@ -13,6 +14,13 @@ import (
 type Repository struct {
 	db  *pgxpool.Pool
 	app *config.Application
+}
+
+type CreateUserParams struct {
+	Username       string `json:"username"`
+	HashedPassword string `json:"hashed_password"`
+	FullName       string `json:"full_name"`
+	Email          string `json:"email"`
 }
 
 func NewRepository(db *pgxpool.Pool, app *config.Application) *Repository {
@@ -99,6 +107,43 @@ func (r *Repository) GetProcessedMessagesCount(ctx context.Context, topic utils.
 }
 
 func RunMigrations(db *pgxpool.Pool, messages []string) error {
+	ctx := context.Background()
+
+	quser := `CREATE TABLE IF NOT EXISTS users (
+    username varchar PRIMARY KEY,
+    hashed_password varchar NOT NULL,
+    full_name varchar NOT NULL,
+    email varchar UNIQUE NOT NULL,
+    password_changed_at timestamptz NOT NULL DEFAULT('0001-01-01 00:00:00Z'),
+    created_at timestamptz NOT NULL DEFAULT (now()),
+    is_email_verified boolean NOT NULL DEFAULT false,
+    role varchar NOT NULL DEFAULT 'depositor'    
+);`
+	_, err := db.Exec(ctx, quser)
+	if err != nil {
+		return err
+	}
+
+	qsessions := `CREATE TABLE IF NOT EXISTS sessions (
+		id uuid PRIMARY KEY,
+		username varchar NOT NULL,
+		refresh_token varchar NOT NULL,
+		user_agent varchar NOT NULL,
+		client_ip varchar NOT NULL,
+		is_blocked boolean NOT NULL DEFAULT false,
+		expires_at timestamptz NOT NULL,
+		created_at timestamptz NOT NULL DEFAULT (now())
+	);`
+	_, err = db.Exec(ctx, qsessions)
+	if err != nil {
+		return err
+	}
+
+	qalter := `ALTER TABLE sessions ADD FOREIGN KEY (username) REFERENCES users (username);`
+	_, err = db.Exec(ctx, qalter)
+	if err != nil {
+		return err
+	}
 
 	for _, message := range messages {
 		msg := fmt.Sprintf("CREATE TABLE IF NOT EXISTS %s ", message)
@@ -110,7 +155,7 @@ func RunMigrations(db *pgxpool.Pool, messages []string) error {
 		created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 	    );`
 
-		_, err := db.Exec(context.Background(), msg+query)
+		_, err = db.Exec(ctx, msg+query)
 		if err != nil {
 			return err
 		}
@@ -143,4 +188,62 @@ func (r *Repository) tableExists(ctx context.Context, tableName string) (bool, e
 		return false, err
 	}
 	return exists, nil
+}
+
+const createUser = `
+INSERT INTO users (
+    username,
+    hashed_password,
+    full_name,
+    email
+) VALUES (
+    $1, $2, $3, $4
+) RETURNING username, hashed_password, full_name, email, password_changed_at, created_at, is_email_verified, role
+`
+
+func (r *Repository) CreateUser(ctx context.Context, arg CreateUserParams) (api.User, error) {
+
+	row := r.db.QueryRow(ctx, createUser,
+		arg.Username,
+		arg.HashedPassword,
+		arg.FullName,
+		arg.Email,
+	)
+
+	i := api.User{}
+	err := row.Scan(
+		&i.Username,
+		&i.HashedPassword,
+		&i.FullName,
+		&i.Email,
+		&i.PasswordChangedAt,
+		&i.CreatedAt,
+		&i.IsEmailVerified,
+		&i.Role,
+	)
+
+	return i, err
+}
+
+const getUser = `-- name: GetUser :one
+SELECT username, hashed_password, full_name, email, password_changed_at, created_at, is_email_verified, role FROM users
+WHERE username = $1 LIMIT 1
+`
+
+func (r *Repository) GetUser(ctx context.Context, username string) (api.User, error) {
+	row := r.db.QueryRow(ctx, getUser, username)
+
+	i := api.User{}
+	err := row.Scan(
+		&i.Username,
+		&i.HashedPassword,
+		&i.FullName,
+		&i.Email,
+		&i.PasswordChangedAt,
+		&i.CreatedAt,
+		&i.IsEmailVerified,
+		&i.Role,
+	)
+
+	return i, err
 }

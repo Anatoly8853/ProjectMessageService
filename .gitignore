@@ -1,0 +1,8 @@
+# Игнорирование файлов и каталогов, указанных в .gitignore
+<?xml version="1.0" encoding="UTF-8"?>
+/shelf/
+/workspace.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+/JetClient/
+/.idea/

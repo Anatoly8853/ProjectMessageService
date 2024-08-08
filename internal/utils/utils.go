@@ -3,7 +3,7 @@ package utils
 import `time`
 
 type Message struct {
-	Topic   string `json:"topic" binding:"required"`
+	Topic   string `json:"topic" binding:"required,topic"`
 	Message string `json:"message" binding:"required"`
 }
 
